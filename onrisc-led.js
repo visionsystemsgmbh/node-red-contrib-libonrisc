@@ -1,11 +1,17 @@
 module.exports = function(RED) {
+    'use strict'
+    let onriscCommon = require('./onrisc-common');
     let onrisc = require('libonrisc');
     function OnriscLedNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
         node.led = config.led
-	var info = new onrisc.onrisc_system_t();
-	onrisc.onrisc_init(info);
+
+	if (!onriscCommon.onriscInfo) {
+		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
+		onrisc.onrisc_init(onriscCommon.onriscInfo);
+	}
+
 	var ready_led = new onrisc.blink_led_t();
 	onrisc.onrisc_blink_create(ready_led);
 	if (node.led == 'Power') {
