@@ -1,0 +1,59 @@
+<script type="text/javascript">
+    RED.nodes.registerType('onrisc-uart-mode',{
+        category: 'libonrisc',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            port: {value: "1", required: true},
+            mode: {value: "RS232", required: true},
+            termination: {value: "off", required: true},
+        },
+        inputs:0,
+        outputs:0,
+        icon: "file.png",
+        label: function() {
+            return this.name||"onrisc-uart-mode";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="onrisc-uart-mode">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port"><i class="icon-list"></i> Port</label>
+        <select id="node-input-port">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-mode"><i class="icon-list"></i> Mode</label>
+        <select id="node-input-mode">
+            <option value="RS232">RS232</option>
+            <option value="RS422">RS422</option>
+            <option value="RS485-half-duplex">RS485-half-duplex</option>
+            <option value="RS485-full-duplex">RS485-full-duplex</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-termination"><i class="icon-list"></i> Termination</label>
+        <select id="node-input-termination">
+            <option value="on">On</option>
+            <option value="off">Off</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="onrisc-uart-mode">
+    <p>UART mode controlling node</p>
+
+    <p>This node requires following settings</p>
+        <ul>
+          <li>Port number</li>
+          <li>RS mode: RS232, RS422, RS485 half or full duplex</li>
+          <li>Termination</li>
+        </ul>
+</script>

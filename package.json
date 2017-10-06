@@ -6,7 +6,8 @@
             "onrisc-gpio-write": "onrisc-gpio-write.js",
             "onrisc-gpio-read": "onrisc-gpio-read.js",
             "onrisc-dip": "onrisc-dip.js",
-            "onrisc-wlan-sw": "onrisc-wlan-sw.js"
+            "onrisc-wlan-sw": "onrisc-wlan-sw.js",
+            "onrisc-uart-mode": "onrisc-uart-mode.js"
         }
     }
 }
