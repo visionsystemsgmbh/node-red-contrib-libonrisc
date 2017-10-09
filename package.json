@@ -1,5 +1,6 @@
 {
     "name" : "node-red-contrib-libonrisc",
+    "version": "1.0.0",
     "node-red" : {
         "nodes": {
             "onrisc-led": "onrisc-led.js",
