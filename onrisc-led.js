@@ -29,8 +29,6 @@ module.exports = function(RED) {
             } else {
                 onrisc.onrisc_switch_led(ready_led, 0);
 	    }
-	
-            node.send(msg);
         });
     }
     RED.nodes.registerType("onrisc-led",OnriscLedNode);

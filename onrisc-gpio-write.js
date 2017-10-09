@@ -16,12 +16,15 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
             var data = msg.payload
 
-            gpios.mask = parseInt(data.mask);
-            gpios.value = parseInt(data.value);
+            gpios.mask = data.mask;
+            gpios.value = data.value;
 	
-            onrisc.onrisc_gpio_set_value(gpios);
+            var rc = onrisc.onrisc_gpio_set_value(gpios);
 
-            node.send(msg);
+	    if (rc) {
+		    var log_str = "Failed to set GPIOs";
+		    node.error(log_str);
+	    }
         });
     }
     RED.nodes.registerType("onrisc-gpio-write",OnriscGpioWriteNode);
