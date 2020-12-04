@@ -9,7 +9,7 @@ module.exports = function(RED) {
 
 	if (!onriscCommon.onriscInfo) {
 		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo);
+		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
 	}
 
 	let timerID;
@@ -20,12 +20,10 @@ module.exports = function(RED) {
 	function dipPollingRead() {
 
           var msg;
-	  var dip = onrisc.new_uint32_tp();
+	  var dip = onrisc.dips_state_ptr;
 	  onrisc.onrisc_get_dips(dip);
-	  var val = onrisc.uint32_tp_value(dip);
-	  onrisc.delete_uint32_tp(dip);
 
-	  msg = { payload: val };
+	  msg = { payload: dip.deref() };
           node.send(msg);
 	}
 	node.on('close', function() {
@@ -34,5 +32,5 @@ module.exports = function(RED) {
 	});
 
     }
-    RED.nodes.registerType("onrisc-dip",OnriscDipNode);
+    RED.nodes.registerType("onrisc-dip", OnriscDipNode);
 }

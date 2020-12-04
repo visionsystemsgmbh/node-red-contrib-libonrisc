@@ -3,12 +3,12 @@ module.exports = function(RED) {
     let onriscCommon = require('./onrisc-common');
     let onrisc = require('libonrisc');
     function OnriscGpioWriteNode(config) {
-        RED.nodes.createNode(this,config);
+        RED.nodes.createNode(this, config);
         var node = this;
 
 	if (!onriscCommon.onriscInfo) {
 		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo);
+		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
 	}
 
 	var gpios = new onrisc.onrisc_gpios_t();
@@ -19,7 +19,7 @@ module.exports = function(RED) {
             gpios.mask = data.mask;
             gpios.value = data.value;
 	
-            var rc = onrisc.onrisc_gpio_set_value(gpios);
+            var rc = onrisc.onrisc_gpio_set_value(gpios.ref());
 
 	    if (rc) {
 		    var log_str = "Failed to set GPIOs";
@@ -27,5 +27,5 @@ module.exports = function(RED) {
 	    }
         });
     }
-    RED.nodes.registerType("onrisc-gpio-write",OnriscGpioWriteNode);
+    RED.nodes.registerType("onrisc-gpio-write", OnriscGpioWriteNode);
 }

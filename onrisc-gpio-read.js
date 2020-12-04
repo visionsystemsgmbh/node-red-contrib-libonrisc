@@ -3,13 +3,13 @@ module.exports = function(RED) {
     let onriscCommon = require('./onrisc-common');
     let onrisc = require('libonrisc');
     function OnriscGpioReadNode(config) {
-        RED.nodes.createNode(this,config);
+        RED.nodes.createNode(this, config);
         var node = this;
         node.rate = config.rate;
 
 	if (!onriscCommon.onriscInfo) {
 		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo);
+		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
 	}
 
 	var gpios = new onrisc.onrisc_gpios_t();
@@ -22,7 +22,7 @@ module.exports = function(RED) {
 
           var msg;
 
-          onrisc.onrisc_gpio_get_value(gpios);
+          onrisc.onrisc_gpio_get_value(gpios.ref());
 	  msg = { payload: gpios.value };
           node.send(msg);
 	}
@@ -32,5 +32,5 @@ module.exports = function(RED) {
 	});
 
     }
-    RED.nodes.registerType("onrisc-gpio-read",OnriscGpioReadNode);
+    RED.nodes.registerType("onrisc-gpio-read", OnriscGpioReadNode);
 }

@@ -20,12 +20,10 @@ module.exports = function(RED) {
 	function wlanSwPollingRead() {
 
           var msg;
-	  var wlan_sw = onrisc.new_intp();
+	  var wlan_sw = onrisc.wlan_sw_state_ptr;
 	  onrisc.onrisc_get_wlan_sw_state(wlan_sw);
-	  var val = onrisc.intp_value(wlan_sw);
-	  onrisc.delete_intp(wlan_sw);
 
-	  msg = { payload: val };
+	  msg = { payload: wlan_sw.deref() };
           node.send(msg);
 	}
 	node.on('close', function() {
