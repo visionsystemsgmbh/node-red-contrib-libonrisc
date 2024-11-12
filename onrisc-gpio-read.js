@@ -8,11 +8,9 @@ module.exports = function(RED) {
         node.rate = config.rate;
 
 	if (!onriscCommon.onriscInfo) {
-		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
+		onriscCommon.onriscInfo = new onrisc.OnriscSystem();
 	}
 
-	var gpios = new onrisc.onrisc_gpios_t();
 	let timerID;
 	if (!timerID) {
 		timerID = setInterval(gpioPollingRead, node.rate);
@@ -22,8 +20,8 @@ module.exports = function(RED) {
 
           var msg;
 
-          onrisc.onrisc_gpio_get_value(gpios.ref());
-	  msg = { payload: gpios.value };
+	  var gpios = onriscCommon.onriscInfo.getGpioValue().value;
+	  msg = { payload: gpios };
           node.send(msg);
 	}
 	node.on('close', function() {

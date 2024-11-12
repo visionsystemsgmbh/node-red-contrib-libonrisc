@@ -8,26 +8,24 @@ module.exports = function(RED) {
         node.led = config.led
 
 	if (!onriscCommon.onriscInfo) {
-		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
+		onriscCommon.onriscInfo = new onrisc.OnriscSystem();
 	}
 
-	var ready_led = new onrisc.blink_led_t();
-	onrisc.onrisc_blink_create(ready_led.ref());
+	var ready_led;
 	if (node.led == 'Power') {
-	    ready_led.led_type = onrisc.led_type.LED_POWER;
+	    ready_led = onrisc.LedType.LED_POWER;
 	} else if (node.led == 'WLAN') {
-	    ready_led.led_type = onrisc.led_type.LED_WLAN;
+	    ready_led = onrisc.LedType.LED_WLAN;
 	} else {
-	    ready_led.led_type = onrisc.led_type.LED_APP;
+	    ready_led = onrisc.LedType.LED_APP;
 	}
 
         node.on('input', function(msg) {
             var data = msg.payload
             if (data == true) {
-                onrisc.onrisc_switch_led(ready_led.ref(), 1);
+                onriscCommon.onriscInfo.switchLed(ready_led, 1);
             } else {
-                onrisc.onrisc_switch_led(ready_led.ref(), 0);
+                onriscCommon.onriscInfo.switchLed(ready_led, 0);
 	    }
         });
     }

@@ -7,24 +7,14 @@ module.exports = function(RED) {
         var node = this;
 
 	if (!onriscCommon.onriscInfo) {
-		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
+		onriscCommon.onriscInfo = new onrisc.OnriscSystem();
 	}
-
-	var gpios = new onrisc.onrisc_gpios_t();
 
         node.on('input', function(msg) {
             var data = msg.payload
 
-            gpios.mask = data.mask;
-            gpios.value = data.value;
+	    onriscCommon.onriscInfo.setGpioValue(data.mask, data.value);
 	
-            var rc = onrisc.onrisc_gpio_set_value(gpios.ref());
-
-	    if (rc) {
-		    var log_str = "Failed to set GPIOs";
-		    node.error(log_str);
-	    }
         });
     }
     RED.nodes.registerType("onrisc-gpio-write", OnriscGpioWriteNode);

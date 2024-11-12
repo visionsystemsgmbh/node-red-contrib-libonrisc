@@ -8,8 +8,7 @@ module.exports = function(RED) {
         node.rate = config.rate;
 
 	if (!onriscCommon.onriscInfo) {
-		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo);
+		onriscCommon.onriscInfo = new onrisc.OnriscSystem();
 	}
 
 	let timerID;
@@ -18,12 +17,10 @@ module.exports = function(RED) {
 	}
 
 	function wlanSwPollingRead() {
-
           var msg;
-	  var wlan_sw = onrisc.wlan_sw_state_ptr;
-	  onrisc.onrisc_get_wlan_sw_state(wlan_sw);
+	  var wlan_sw = onriscCommon.onriscInfo.getWlanSwState();
 
-	  msg = { payload: wlan_sw.deref() };
+	  msg = { payload: wlan_sw };
           node.send(msg);
 	}
 	node.on('close', function() {
@@ -32,5 +29,5 @@ module.exports = function(RED) {
 	});
 
     }
-    RED.nodes.registerType("onrisc-wlan-sw",OnriscWlanSwNode);
+    RED.nodes.registerType("onrisc-wlan-sw", OnriscWlanSwNode);
 }

@@ -8,8 +8,7 @@ module.exports = function(RED) {
         node.rate = config.rate;
 
 	if (!onriscCommon.onriscInfo) {
-		onriscCommon.onriscInfo = new onrisc.onrisc_system_t();
-		onrisc.onrisc_init(onriscCommon.onriscInfo.ref());
+		onriscCommon.onriscInfo = new onrisc.OnriscSystem();
 	}
 
 	let timerID;
@@ -20,10 +19,9 @@ module.exports = function(RED) {
 	function dipPollingRead() {
 
           var msg;
-	  var dip = onrisc.dips_state_ptr;
-	  onrisc.onrisc_get_dips(dip);
+	  var dip = onriscCommon.onriscInfo.getDips();
 
-	  msg = { payload: dip.deref() };
+	  msg = { payload: dip };
           node.send(msg);
 	}
 	node.on('close', function() {
