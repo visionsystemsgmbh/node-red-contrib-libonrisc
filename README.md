@@ -13,9 +13,9 @@ Features
 Installation
 ------------
 
-**node-red-contrib-libonrisc** has following requirements: **libonirsc** Node.js
-bindings, **nodejs** and **node-red**.
+**node-red-contrib-libonrisc** has the following requirements:
+**libonirsc** Node.js bindings, **nodejs**, and **node-red**.
 
 1. `git clone https://github.com/visionsystemsgmbh/node-red-contrib-libonrisc.git`
 2. `cd node-red-contrib-libonrisc`
-3. `npm install -g --unsafe-perm`
+3. ``npm install -g `npm pack .` ``
